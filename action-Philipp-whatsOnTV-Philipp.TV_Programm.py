@@ -5,7 +5,7 @@ import ConfigParser
 from hermes_python.hermes import Hermes
 from hermes_python.ontology import *
 import io
-from urllib.request import urlopen
+from urllib2 import urlopen
 import xmltodict
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"

@@ -1,4 +1,3 @@
 # Bindings for the hermes protocol 
 hermes-python>=0.1
 xmltodict
-urllib2>=1.22

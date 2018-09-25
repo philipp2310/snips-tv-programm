@@ -58,9 +58,13 @@ def action_wrapper(hermes, intentMessage, conf):
         if channel in item['title']:
             result_sentence = result_sentence + item['title'][8:]
     
+    result_sentence = result_sentence.replace(" |",":")
+    result_sentence = result_sentence.replace("ServusTV Deutschland","Servus TV")
+    result_sentence = result_sentence.replace("SAT.1","Sat 1")
+    result_sentence = result_sentence.replace("DMAX","De Max")
     
     current_session_id = intentMessage.session_id
-    hermes.publish_end_session(current_session_id, result_sentence.replace(" |",":"))
+    hermes.publish_end_session(current_session_id, result_sentence)
     
 
 

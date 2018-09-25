@@ -6,13 +6,7 @@ from hermes_python.hermes import Hermes
 from hermes_python.ontology import *
 import io
 
-try:
-    # For Python 3.0 and later
-    from urllib.request import urlopen
-except ImportError:
-    # Fall back to Python 2's urllib2
-    from urllib2 import urlopen
-
+import urllib
 import xmltodict
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
@@ -54,7 +48,7 @@ def action_wrapper(hermes, intentMessage, conf):
     result_sentence = "Auf Channel " + channel + " kommt gerade "
     # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
     # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
-    file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
+    file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
     data = file.read()
     file.close()
     data = xmltodict.parse(data)

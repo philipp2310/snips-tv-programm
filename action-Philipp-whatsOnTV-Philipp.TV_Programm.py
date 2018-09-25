@@ -43,9 +43,10 @@ def action_wrapper(hermes, intentMessage, conf):
     """
 
     if len(intentMessage.slots.channel) > 0:
-        channel = intentMessage.slots.channel.first().value
+        channel = intentMessage.slots.channel.first().value + " |"
 
-    result_sentence = "Auf Channel " + channel + " kommt gerade "
+    #result_sentence = "Auf " + channel[:-2] + " kommt gerade "
+    result_sentence = "Gerade lauft: "
     # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
     # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
     file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
@@ -56,13 +57,14 @@ def action_wrapper(hermes, intentMessage, conf):
     for item in data['rss']['channel']['item']:
         if channel in item['title']:
             result_sentence = result_sentence + item['title'][8:]
-
+    
+    
     current_session_id = intentMessage.session_id
-    hermes.publish_end_session(current_session_id, result_sentence)
+    hermes.publish_end_session(current_session_id, result_sentence.replace(" |",":"))
     
 
 
 if __name__ == "__main__":
     with Hermes("localhost:1883") as h:
-        h.subscribe_intent("Philipp:AddItem", subscribe_intent_callback) \
+        h.subscribe_intent("Philipp:whatsOnTV", subscribe_intent_callback) \
          .start()

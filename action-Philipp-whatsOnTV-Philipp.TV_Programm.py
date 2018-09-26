@@ -46,7 +46,7 @@ def action_wrapper(hermes, intentMessage, conf):
         channel = intentMessage.slots.channel.first().value + " |"
 
     #result_sentence = "Auf " + channel[:-2] + " kommt gerade "
-    result_sentence = "Gerade lauft: "
+    result_sentence = "Gerade läuft: "
     # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
     # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
     file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')

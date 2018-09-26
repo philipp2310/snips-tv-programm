@@ -42,30 +42,6 @@ def action_wrapper(hermes, intentMessage, conf):
     Refer to the documentation for further details. 
     """
 
-    if len(intentMessage.slots.channel) > 0:
-        channel = intentMessage.slots.channel.first().value + " |"
-
-    #result_sentence = "Auf " + channel[:-2] + " kommt gerade "
-    result_sentence = "Jetzt auf"
-    # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
-    # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
-    file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
-    data = file.read()
-    file.close()
-    data = xmltodict.parse(data)
-
-    for item in data['rss']['channel']['item']:
-        if channel in item['title']:
-            result_sentence = result_sentence + item['title'][8:]
-    
-    result_sentence = result_sentence.replace(" |",":")
-    result_sentence = result_sentence.replace("ServusTV Deutschland","Servus TV")
-    result_sentence = result_sentence.replace("SAT.1","Sat 1")
-    result_sentence = result_sentence.replace("DMAX","De Max")
-    
-    current_session_id = intentMessage.session_id
-    hermes.publish_end_session(current_session_id, result_sentence)
-    
 
 
 if __name__ == "__main__":

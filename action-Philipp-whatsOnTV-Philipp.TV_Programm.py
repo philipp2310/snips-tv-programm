@@ -42,12 +42,24 @@ def action_wrapper(hermes, intentMessage, conf):
     """ 
     if len(intentMessage.slots.channel) > 0:
         channel = intentMessage.slots.channel.first().value + " |"
-
-    #result_sentence = "Auf " + channel[:-2] + " kommt gerade "
-    result_sentence = "Jetzt auf "
-    # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
-    # file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
+    if len(intentMessage.slots.timeslot) > 0:
+        if intentMessage.slots.channel.first().value = "later":
+            when = "2015"
+        else:
+            when = intentMessage.slots.channel.first().value
+        
+    if when = "now":
+        result_sentence = "Jetzt auf "
     file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
+    
+    elif when = "2015":
+        result_sentence = "Heute Abend auf "
+        file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
+        
+    elif when = "2200":
+        result_sentence = "Heute Nacht auf "
+        file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
+
     data = file.read()
     file.close()
     data = xmltodict.parse(data)

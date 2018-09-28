@@ -41,13 +41,13 @@ def action_wrapper(hermes, intentMessage, conf):
     Refer to the documentation for further details. 
     """ 
     if len(intentMessage.slots.channel) > 0:
-        channel = intentMessage.slots.channel.first().value + " |"
+        channel = "| " + intentMessage.slots.channel.first().value + " |"
     if len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.timeslot.first().value == "later":
             when = "2015" # todo: always later than current time!
         else:
             when = intentMessage.slots.timeslot.first().value
-    print("|"+when+"|")
+
     if when == "now":
         result_sentence = "Jetzt auf "
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
@@ -67,16 +67,21 @@ def action_wrapper(hermes, intentMessage, conf):
     data = file.read()
     file.close()
     data = xmltodict.parse(data)
-
+    
+    count = 0
     for item in data['rss']['channel']['item']:
         if channel in item['title']:
             result_sentence = result_sentence + item['title'][8:]
+            count = count + 1
     
-    result_sentence = result_sentence.replace(" |",":")
-    result_sentence = result_sentence.replace("ServusTV Deutschland","Servus TV")
-    result_sentence = result_sentence.replace("SAT.1","Sat 1")
-    result_sentence = result_sentence.replace("DMAX","De Max")
-    
+    if count > 0:
+        result_sentence = result_sentence.replace(" |",":")
+        result_sentence = result_sentence.replace("ServusTV Deutschland","Servus TV")
+        result_sentence = result_sentence.replace("SAT.1","Sat 1")
+        result_sentence = result_sentence.replace("DMAX","De Max")
+    else:
+        result_sentence = "Leider konnte ich keine Sendung finden."
+        
     current_session_id = intentMessage.session_id
     hermes.publish_end_session(current_session_id, result_sentence)
     

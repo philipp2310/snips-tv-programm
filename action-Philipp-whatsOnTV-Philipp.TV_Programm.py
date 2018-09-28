@@ -47,7 +47,7 @@ def action_wrapper(hermes, intentMessage, conf):
             when = "2015" # todo: always later than current time!
         else:
             when = intentMessage.slots.channel.first().value
-        
+    print("|"+when+"|")
     if when == "now":
         result_sentence = "Jetzt auf "
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')

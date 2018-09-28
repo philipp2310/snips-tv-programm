@@ -44,13 +44,13 @@ def action_wrapper(hermes, intentMessage, conf):
         channel = intentMessage.slots.channel.first().value + " |"
     if len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.channel.first().value = "later":
-            when = "2015"
+            when = "2015" # todo: always later than current time!
         else:
             when = intentMessage.slots.channel.first().value
         
     if when = "now":
         result_sentence = "Jetzt auf "
-    file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
+        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
     
     elif when = "2015":
         result_sentence = "Heute Abend auf "

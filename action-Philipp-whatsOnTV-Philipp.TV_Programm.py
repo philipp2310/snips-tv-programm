@@ -43,10 +43,10 @@ def action_wrapper(hermes, intentMessage, conf):
     if len(intentMessage.slots.channel) > 0:
         channel = intentMessage.slots.channel.first().value + " |"
     if len(intentMessage.slots.timeslot) > 0:
-        if intentMessage.slots.channel.first().value == "later":
+        if intentMessage.slots.timeslot.first().value == "later":
             when = "2015" # todo: always later than current time!
         else:
-            when = intentMessage.slots.channel.first().value
+            when = intentMessage.slots.timeslot.first().value
     print("|"+when+"|")
     if when == "now":
         result_sentence = "Jetzt auf "

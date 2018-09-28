@@ -54,11 +54,11 @@ def action_wrapper(hermes, intentMessage, conf):
     
     elif when == "2015":
         result_sentence = "Heute Abend auf "
-        file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
+        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
         
     elif when == "2200":
         result_sentence = "Heute Nacht auf "
-        file = urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
+        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
         
     else:
         result_sentence = "Jetzt auf "

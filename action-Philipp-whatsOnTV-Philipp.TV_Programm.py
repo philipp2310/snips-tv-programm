@@ -74,6 +74,7 @@ def action_wrapper(hermes, intentMessage, conf):
     
     for chan in intentMessage.slots.channel:
         print(chan)
+        print(chan.value)
         
     count = 0
     for item in data['rss']['channel']['item']:

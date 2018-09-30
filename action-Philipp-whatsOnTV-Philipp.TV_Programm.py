@@ -50,7 +50,7 @@ def action_wrapper(hermes, intentMessage, conf):
         else:
             when = intentMessage.slots.timeslot.first().value
     else:
-        when == "now"
+        when = "now"
 
     if when == "now":
         result_sentence = "Jetzt auf "

@@ -76,6 +76,7 @@ def action_wrapper(hermes, intentMessage, conf):
     for item in data['rss']['channel']['item']:
         if noChan:
             #check in fav
+            result = "Favouriten nicht definiert."
         else:
             if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel):
                 result_sentence = result_sentence + item['title'][8:] + " . "

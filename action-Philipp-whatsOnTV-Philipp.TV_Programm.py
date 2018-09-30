@@ -44,6 +44,7 @@ def action_wrapper(hermes, intentMessage, conf):
     
     if len(intentMessage.slots.channel) > 0:
         noChan = True
+        print(intentMessage.slots.channel.first())
         for chan in intentMessage.slots.channel:
             print(chan.value)
     if len(intentMessage.slots.timeslot) > 0:

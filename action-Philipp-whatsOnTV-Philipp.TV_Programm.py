@@ -47,6 +47,8 @@ def action_wrapper(hermes, intentMessage, conf):
             when = "2015" # todo: always later than current time!
         else:
             when = intentMessage.slots.timeslot.first().value
+    else:
+        when == "now"
 
     if when == "now":
         result_sentence = "Jetzt auf "

@@ -40,8 +40,10 @@ def action_wrapper(hermes, intentMessage, conf):
      
     Refer to the documentation for further details. 
     """ 
+    noChan = False
+    
     if len(intentMessage.slots.channel) > 0:
-        channel = "| " + intentMessage.slots.channel.first().value + " |"
+        noChan = True
     if len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.timeslot.first().value == "later":
             when = "2015" # todo: always later than current time!
@@ -72,9 +74,12 @@ def action_wrapper(hermes, intentMessage, conf):
     
     count = 0
     for item in data['rss']['channel']['item']:
-        if channel in item['title']:
-            result_sentence = result_sentence + item['title'][8:]
-            count = count + 1
+        if noChan:
+            #check in fav
+        else:
+            if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel):
+                result_sentence = result_sentence + item['title'][8:] + " . "
+                count = count + 1
     
     if count > 0:
         result_sentence = result_sentence.replace(" |",":")

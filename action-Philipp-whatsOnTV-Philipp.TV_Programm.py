@@ -95,7 +95,7 @@ def action_wrapper(hermes, intentMessage, conf):
         if 'channel' in slots:
             for slot in slots['channel']:
                 chan = slot.value
-                if chan in item:
+                if chan in item['title']:
                     result_sentence = result_sentence + item['title'][8:] + " . "
                     count = count + 1
     

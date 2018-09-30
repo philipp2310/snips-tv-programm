@@ -7,9 +7,27 @@ from hermes_python.ontology import *
 import io
 import urllib
 import xmltodict
+import json
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
+
+class Slot(object):
+    def __init__(self, data):
+        self.slotName = data['slotName']
+        self.entity = data['entity']
+        self.rawValue = data['rawValue']
+        self.value = data['value']
+        self.range = data['range']
+
+def parseSlotsToObjects(message):
+    slots = defaultdict(list)
+    data = json.loads(message.payload)
+    if 'slots' in data:
+        for slotData in data['slots']:
+            slot = slotModel.Slot(slotData)
+            slots[slot.slotName].append(slot)
+    return slots
 
 class SnipsConfigParser(ConfigParser.SafeConfigParser):
     def to_dict(self):
@@ -44,9 +62,7 @@ def action_wrapper(hermes, intentMessage, conf):
     
     if len(intentMessage.slots.channel) > 0:
         noChan = True
-        print(intentMessage.slots.channel.first())
-        for chan in intentMessage.slots.channel:
-            print(chan.value)
+        slots = parseSlotsToObjects(intentMessage)
     if len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.timeslot.first().value == "later":
             when = "2015" # todo: always later than current time!
@@ -85,7 +101,7 @@ def action_wrapper(hermes, intentMessage, conf):
             #check in fav
             result = "Favouriten nicht definiert."
         else:
-            if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel):
+            if any(chan.value in item['title'] for chan in slots['channel']):
                 result_sentence = result_sentence + item['title'][8:] + " . "
                 count = count + 1
     

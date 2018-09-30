@@ -11,6 +11,14 @@ import xmltodict
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
 
+class Slot(object):
+   def __init__(self, data):
+      self.slotName = data['slotName']
+      self.entity = data['entity']
+      self.rawValue = data['rawValue']
+      self.value = data['value']
+      self.range = data['range']
+      
 class SnipsConfigParser(ConfigParser.SafeConfigParser):
     def to_dict(self):
         return {section : {option_name : option for option_name, option in self.items(section)} for section in self.sections()}
@@ -29,6 +37,14 @@ def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
     action_wrapper(hermes, intentMessage, conf)
 
+def parseSlotsToObjects(message):
+   slots = defaultdict(list)
+   data = json.loads(message.payload)
+   if 'slots' in data:
+      for slotData in data['slots']:
+         slot = slotModel.Slot(slotData)
+         slots[slot.slotName].append(slot)
+   return slots
 
 def action_wrapper(hermes, intentMessage, conf):
     """ Write the body of the function that will be executed once the intent is recognized. 
@@ -41,6 +57,8 @@ def action_wrapper(hermes, intentMessage, conf):
     Refer to the documentation for further details. 
     """ 
     noChan = False
+    
+    slots = parseSlotsToObjects(intentMessage)
     
     if len(intentMessage.slots.channel) > 0:
         noChan = True
@@ -78,13 +96,12 @@ def action_wrapper(hermes, intentMessage, conf):
         
     count = 0
     for item in data['rss']['channel']['item']:
-        if noChan:
-            #check in fav
-            result = "Favouriten nicht definiert."
-        else:
-            if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel):
-                result_sentence = result_sentence + item['title'][8:] + " . "
-                count = count + 1
+        if 'channel' in slots:
+            for slot in slots['channel']:
+                chan = slot.value
+                if chan in item:
+                    result_sentence = result_sentence + item['title'][8:] + " . "
+                    count = count + 1
     
     if count > 0:
         result_sentence = result_sentence.replace(" |",":")
@@ -96,7 +113,6 @@ def action_wrapper(hermes, intentMessage, conf):
         
     current_session_id = intentMessage.session_id
     hermes.publish_end_session(current_session_id, result_sentence)
-    
 
 
 if __name__ == "__main__":

@@ -78,7 +78,7 @@ def action_wrapper(hermes, intentMessage, conf):
             #check in fav
             result = "Favouriten nicht definiert."
         else:
-            if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel.all()):
+            if any(chan.value in item['title'] for chan in intentMessage.slots.channel.all()):
                 result_sentence = result_sentence + item['title'][8:] + " . "
                 count = count + 1
     

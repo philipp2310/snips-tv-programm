@@ -72,7 +72,7 @@ def action_wrapper(hermes, intentMessage, conf):
     file.close()
     data = xmltodict.parse(data)
     
-    for chan in channelintentMessage.slots.channel):
+    for chan in channelintentMessage.slots.channel:
         print(chan.value)
         
     count = 0

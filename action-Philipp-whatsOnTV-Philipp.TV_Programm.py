@@ -40,12 +40,10 @@ def action_wrapper(hermes, intentMessage, conf):
      
     Refer to the documentation for further details. 
     """ 
-    noChan = False
+    noChan = True
     
     if len(intentMessage.slots.channel) > 0:
-        noChan = True
-        for chan in intentMessage.slots.channel.all():
-            print(chan.value)
+        noChan = False
     if len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.timeslot.first().value == "later":
             when = "2015" # todo: always later than current time!
@@ -73,9 +71,6 @@ def action_wrapper(hermes, intentMessage, conf):
     data = file.read()
     file.close()
     data = xmltodict.parse(data)
-    
-    for chan in intentMessage.slots.channel.all():
-        print(chan.value)
         
     count = 0
     for item in data['rss']['channel']['item']:
@@ -83,7 +78,7 @@ def action_wrapper(hermes, intentMessage, conf):
             #check in fav
             result = "Favouriten nicht definiert."
         else:
-            if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel):
+            if any(chan.value in item['title'] for chan in channelintentMessage.slots.channel.all()):
                 result_sentence = result_sentence + item['title'][8:] + " . "
                 count = count + 1
     

@@ -8,6 +8,7 @@ import io
 import urllib
 import xmltodict
 from snips_storeList import StoreList
+import datetime
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"

@@ -7,7 +7,7 @@ from hermes_python.ontology import *
 import io
 import urllib
 import xmltodict
-from snips-storeList import StoreList
+from snips_storeList import StoreList
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"

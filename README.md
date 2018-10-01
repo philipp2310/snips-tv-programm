@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # snips-tv-programm
 SNIPS TV Programm
 
@@ -46,3 +47,4 @@ Screen integration: Send out MQTT containing the data to display stuff on a smar
 - show favorite list
 - show programm info (with details and img?)
 - receive input: remove(add?) favourite
+>>>>>>> 522702149055dccd22b75b44f456fa9492888b09

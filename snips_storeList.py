@@ -58,7 +58,6 @@ class StoreList:
         return response
 
     def remove_item(self, item_list):
-        item_list = intentMessage.slots.item.all()
         notlist_items = []
         removed_items = []
         for item in item_list:

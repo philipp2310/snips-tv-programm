@@ -42,7 +42,7 @@ def action_wrapper(hermes, intentMessage, conf):
     Refer to the documentation for further details. 
     """
     if intentMessage.intent.intent_name == "Philipp:whatsOnTV":
-        whatsOnTV(hermes,intentMessage,conf)
+        hermes.publish_end_session(intentMessage.session_id, whatsOnTV(hermes,intentMessage,conf))
     elif intentMessage.intent.intent_name == "Philipp:addFavouriteChannel":
         addFav(hermes,intentMessage,conf)
     elif intentMessage.intent.intent_name == "Philipp:deleteFavouriteChannel":
@@ -64,14 +64,20 @@ def whatsOnTV(hermes, intentMessage, conf):
         noChan = False
     if len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.timeslot.first().value == "later":
-            when = "2015" # todo: always later than current time!
+            if datetime.now().strftime('%H%M%S') > "2015":
+                when = "2200"
+            elif datetime.now().strftime('%H%M%S') > "2200"
+                when = "now"
+                result_sentence = "Keine späteren Informationen verfügbar. "
+            else:
+                when = "2015"
         else:
             when = intentMessage.slots.timeslot.first().value
     else:
         when = "now"
 
     if when == "now":
-        result_sentence = "Jetzt auf "
+        result_sentence += "Jetzt auf "
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
     
     elif when == "2015":
@@ -112,9 +118,8 @@ def whatsOnTV(hermes, intentMessage, conf):
         result_sentence = result_sentence.replace("DMAX","De Max")
     else:
         result_sentence = "Leider konnte ich keine Sendung finden."
-        
-    current_session_id = intentMessage.session_id
-    hermes.publish_end_session(current_session_id, result_sentence)
+    
+    return result_sentence
 
 
 if __name__ == "__main__":

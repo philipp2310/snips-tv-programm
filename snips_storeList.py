@@ -35,7 +35,7 @@ class StoreList:
                 items_str += "{} ".format(added_items[-1])
                 word_pl_sg = "wurde"
             first_str = items_str + random.choice(["{} hinzugefügt".format(word_pl_sg),
-                                                   "{} auf die {}Liste geschrieben".format(word_pl_sg, self.callName)])
+                                                   "{} auf die {listName}Liste geschrieben".format(word_pl_sg, listName=self.callName)])
             if not dublicate_items:
                 first_str += "."
             else:
@@ -49,9 +49,9 @@ class StoreList:
             else:
                 items_str += "{} ".format(dublicate_items[-1])
                 word_pl_sg = "ist"
-            second_str = items_str + random.choice(["{} schon auf der {}Liste.".format(word_pl_sg, self.callName),
-                                                    "{} auf der {}Liste schon vorhanden.".format(word_pl_sg, self.callName),
-                                                    "{} bereits auf der {}Liste vorhanden.".format(word_pl_sg, self.callName)])
+            second_str = items_str + random.choice(["{} schon auf der {listName}Liste.".format(word_pl_sg, listName=self.callName),
+                                                    "{} auf der {listName}Liste schon vorhanden.".format(word_pl_sg, listName=self.callName),
+                                                    "{} bereits auf der {listName}Liste vorhanden.".format(word_pl_sg, listName=self.callName)])
             response += second_str
         self.save_storeList()
         return response
@@ -76,7 +76,7 @@ class StoreList:
                 items_str += "{} ".format(removed_items[-1])
                 word_pl_sg = "wurde"
             first_str = items_str + random.choice(["{} entfernt".format(word_pl_sg),
-                                                   "{} von der {}Liste entfernt".format(word_pl_sg, self.callName)])
+                                                   "{} von der {listName}Liste entfernt".format(word_pl_sg, listName=self.callName)])
             if not notlist_items:
                 first_str += "."
             else:
@@ -91,7 +91,7 @@ class StoreList:
                 items_str += "{} ".format(notlist_items[-1])
                 word_pl_sg = "ist"
             second_str = items_str + random.choice(["{} nicht auf der Liste.".format(word_pl_sg),
-                                                    "{} auf der {}Liste nicht vorhanden.".format(word_pl_sg, self.callName)])
+                                                    "{} auf der {listName}Liste nicht vorhanden.".format(word_pl_sg, listName=self.callName)])
             response += second_str
         self.save_storeList()
         return response
@@ -99,17 +99,17 @@ class StoreList:
     def is_item(self, intentMessage):
         item = intentMessage.slots.item.first().value
         if item in self.storeList:
-            response = "Ja, {item} steht auf der {}Liste.".format(item=str(item), self.callName)
+            response = "Ja, {item} steht auf der {listName}Liste.".format(item=str(item), listName=self.callName)
         else:
-            response = "Nein, {item} ist nicht auf der {]Liste.".format(item=str(item), self.callName)
+            response = "Nein, {item} ist nicht auf der {]Liste.".format(item=str(item), listName=self.callName)
         return response
 
     def try_clear(self):
         if len(self.storeList) > 1:
-            response = "Die {}Liste enthält noch {num} Elemente." \
-                       " Bist du dir sicher?".format(self.callName, num=len(self.storeList))
+            response = "Die {listName}Liste enthält noch {num} Elemente." \
+                       " Bist du dir sicher?".format(listName=self.callName, num=len(self.storeList))
         elif len(self.storeList) == 1:
-            response = "Die {}Liste enthält noch ein Element. Bist du dir sicher?".format(self.callName)
+            response = "Die {listName}Liste enthält noch ein Element. Bist du dir sicher?".format(listName=self.callName)
         else:
             response = 1  # Error: storeList is already empty - no dialogue start
         return response
@@ -118,20 +118,20 @@ class StoreList:
         if intentMessage.slots.answer.first().value == "yes":
             self.storeList = []
             self.save_storeList()
-            return "Die {}Liste wurde geleert.".fromat(self.callName)
+            return "Die {listName}Liste wurde geleert.".fromat(listName=self.callName)
         else:
-            return "Die {}Liste wurde nicht geleert.".format(self.callName)
+            return "Die {listName}Liste wurde nicht geleert.".format(listName=self.callName)
 
     def show(self):
         if len(self.storeList) > 1:
             storeList_str = ""
             for item in self.storeList[:-1]:
                 storeList_str = storeList_str + str(item) + ", "
-            response = "Die {}Liste enthält {items} und {last}.".format(self.callName, items=storeList_str, last=self.storeList[-1])
+            response = "Die {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1])
         elif len(self.storeList) == 1:
-            response = "Die {}Liste enthält nur {item}.".format(self.callName, item=self.storeList[0])
+            response = "Die {listName}Liste enthält nur {item}.".format(listName=self.callName, item=self.storeList[0])
         else:  # If storeList is empty
-            response = "Die {}Liste ist leer.".format(self.callName)
+            response = "Die {listName}Liste ist leer.".format(listName=self.callName)
         return response
 
     def read_storeList(self):

@@ -18,3 +18,8 @@ fi
 . $VENV/bin/activate
 
 pip install -r requirements.txt
+
+if [ ! -f ./.favs ]; then
+    touch .favs
+    sudo chown _snips-skills .favs
+fi

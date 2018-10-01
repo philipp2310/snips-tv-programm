@@ -2,12 +2,13 @@
 import pickle
 import random
 import io
-
+import os
 
 class StoreList:
     def __init__(self, listName, callName):
         self.list_path = listName
         self.callName = callName
+        print(os.getcwd())
         try:
             with io.open(self.list_path, 'rb') as f:
                 itemlist = pickle.load(f)

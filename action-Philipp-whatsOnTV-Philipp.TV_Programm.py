@@ -66,7 +66,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         if intentMessage.slots.timeslot.first().value == "later":
             if datetime.now().strftime('%H%M%S') > "2015":
                 when = "2200"
-            elif datetime.now().strftime('%H%M%S') > "2200"
+            elif datetime.now().strftime('%H%M%S') > "2200":
                 when = "now"
                 result_sentence = "Keine späteren Informationen verfügbar. "
             else:

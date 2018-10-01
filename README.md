@@ -15,8 +15,8 @@ Just install the app in your snips console.
 The programm responds to the intends:
 - Philipp:whatsOnTV {channel|time}
 
-Tells the show on the requested channel at a given time.
-If there is no channel given, it will list the shows for all favorite channels.
+Tells the show on the requested channels during the given timeslot.
+If there is no channel given, or when it is explicitly requested, it will list the shows for all favorite channels.
 If there is no time given, it will tell the current show
 
 - Philipp:addFavouriteChannel {channel}

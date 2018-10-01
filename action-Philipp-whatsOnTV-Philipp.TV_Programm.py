@@ -7,6 +7,7 @@ from hermes_python.ontology import *
 import io
 import urllib
 import xmltodict
+from snips-storeList import StoreList
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
@@ -39,7 +40,25 @@ def action_wrapper(hermes, intentMessage, conf):
       To access global parameters use conf['global']['parameterName']. For end-user parameters use conf['secret']['parameterName'] 
      
     Refer to the documentation for further details. 
-    """ 
+    """
+    if intentMessage.intent.intent_name == "Philipp:whatsOnTV":
+        whatsOnTV(hermes,intentMessage,conf)
+    elif intentMessage.intent.intent_name == "Philipp:addFavouriteChannel":
+        addFav(hermes,intentMessage,conf)
+    elif intentMessage.intent.intent_name == "Philipp:deleteFavouriteChannel":
+        delFav(hermes,intentMessage,conf)
+
+def addFav(hermes, intentMessage, conf):
+    if len(intentMessage.slots.channel) > 0:
+        result_sentence = storage.add_Item(intentMessage.slots.channel.all())
+        hermes.publish_end_session(intentMessage.session_id, result_sentence)
+    
+def delFav(hermes, intentMessage, conf):
+    if len(intentMessage.slots.channel) > 0:
+        result_sentence = storage.remove_item(intentMessage.slots.channel.all())
+        hermes.publish_end_session(intentMessage.session_id, result_sentence)
+
+def whatsOnTV(hermes, intentMessage, conf):
     noChan = True
     
     if len(intentMessage.slots.channel) > 0:
@@ -76,6 +95,7 @@ def action_wrapper(hermes, intentMessage, conf):
     for item in data['rss']['channel']['item']:
         if noChan:
             #check in fav
+            count = 1
             result = "Favouriten nicht definiert."
         else:
             if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
@@ -95,6 +115,6 @@ def action_wrapper(hermes, intentMessage, conf):
 
 
 if __name__ == "__main__":
+    storage = StoreList(".favs","Favoriten")
     with Hermes("localhost:1883") as h:
-        h.subscribe_intent("Philipp:whatsOnTV", subscribe_intent_callback) \
-         .start()
+        h.subscribe_intents(subscribe_intent_callback).start()

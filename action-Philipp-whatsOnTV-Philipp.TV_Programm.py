@@ -97,7 +97,7 @@ def whatsOnTV(hermes, intentMessage, conf):
             result_sentence = "Keine Favouriten definiert."
     for item in data['rss']['channel']['item']:
         if noChan:
-            if any("| " + item +" |" in item['title'] for item in favs):
+            if any("| " + chan +" |" in item['title'] for chan in favs):
                 result_sentence = result_sentence + item['title'][8:] + " . "
                 count = count + 1   
         else:

@@ -16,7 +16,7 @@ import pickle
 # - Einkaufs{Liste}
 # - Favouriten{Liste}
 # - Zutaten{Liste}
-# - Städte{Liste}
+# - Stï¿½dte{Liste}
 
 class StoreList:
     def __init__(self, listName, callName):
@@ -37,7 +37,7 @@ class StoreList:
                 self.storeList.append(item.value)
         # Start response creation
         response = ""
-        # X, Y und Z wurden hinzugefügt....
+        # X, Y und Z wurden hinzugefï¿½gt....
         if added_items:
             items_str = "".join(item + ", " for item in added_items[:-1])
             if len(added_items) >= 2:
@@ -46,7 +46,7 @@ class StoreList:
             else:
                 items_str += "{} ".format(added_items[-1])
                 word_pl_sg = "wurde"
-            first_str = items_str + random.choice(["{} hinzugefügt".decode('utf-8').format(word_pl_sg),
+            first_str = items_str + random.choice(["{} hinzugefÃ¼gt".decode('utf-8').format(word_pl_sg),
                                                    "{} auf die {listName}Liste gesetzt".format(word_pl_sg, listName=self.callName),
                                                    "{} auf die {listName}Liste geschrieben".format(word_pl_sg, listName=self.callName)])
             if not duplicates:
@@ -92,7 +92,7 @@ class StoreList:
                 word_pl_sg = "wurde"
             first_str = items_str + random.choice(["{} entfernt".format(word_pl_sg),
                                                    "{} von der {listName}Liste entfernt".format(word_pl_sg, listName=self.callName),
-                                                   "{} von der {listName}Liste gelöscht".format(word_pl_sg, listName=self.callName)])
+                                                   "{} von der {listName}Liste gelÃ¶scht".format(word_pl_sg, listName=self.callName)])
             if not notlist_items:
                 first_str += "."
             else:
@@ -130,30 +130,30 @@ class StoreList:
     def clear_list(self, intentMessage):
         self.storeList = []
         self.save_storeList()
-        return random.choice(["Die {listName}Liste wurde gelöscht.".fromat(listName=self.callName),
-                              "Deine {listName}Liste wurde gelöscht.".fromat(listName=self.callName),
+        return random.choice(["Die {listName}Liste wurde gelÃ¶scht.".fromat(listName=self.callName),
+                              "Deine {listName}Liste wurde gelÃ¶scht.".fromat(listName=self.callName),
                               "Die {listName}Liste wurde geleert.".fromat(listName=self.callName),
-                              "Alle Einträge wurden von der {listName}Liste gelöscht.".fromat(listName=self.callName)])
+                              "Alle EintrÃ¤ge wurden von der {listName}Liste gelï¿½scht.".fromat(listName=self.callName)])
   
     def show(self):
         if len(self.storeList) > 1:
             storeList_str = ""
             for item in self.storeList[:-1]:
                 storeList_str = storeList_str + str(item) + ", "
-            response = random.choice(["Deine {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
+            response = random.choice(["Deine {listName}Liste enthï¿½lt {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
                                       "Auf der {listName}Liste steht {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
                                       "Du hast {items} sowie {last} auf der {listName}Liste.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
-                                      "Die {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1])])
+                                      "Die {listName}Liste enthÃ¤lt {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1])])
         elif len(self.storeList) == 1:
-            response = random.choice(["Deine {listName}Liste enthält nur {item}.".format(listName=self.callName, item=self.storeList[0]),
+            response = random.choice(["Deine {listName}Liste enthÃ¤lt nur {item}.".format(listName=self.callName, item=self.storeList[0]),
                                       "{item}. Mehr steht nicht auf der {listName}Liste.".format(listName=self.callName, item=self.storeList[0]),
                                       "Die {listName}Liste besteht nur aus {item}.".format(listName=self.callName, item=self.storeList[0]),
-                                      "Die {listName}Liste enthält nur {item}.".format(listName=self.callName, item=self.storeList[0])])
+                                      "Die {listName}Liste enthÃ¤lt nur {item}.".format(listName=self.callName, item=self.storeList[0])])
         else:
             response = random.choice(["Deine {listName}Liste ist leer.".format(listName=self.callName),
-                                      "Die {listName}Liste enthält keine Einträge.".format(listName=self.callName),
+                                      "Die {listName}Liste enthÃ¤lt keine Eintrï¿½ge.".format(listName=self.callName),
                                       "Die {listName}Liste ist leer.".format(listName=self.callName),
-                                      "Die {listName}Liste nicht gefüllt.".format(listName=self.callName)])
+                                      "Die {listName}Liste nicht gefÃ¼llt.".format(listName=self.callName)])
         return response
 
     def read_storeList(self):

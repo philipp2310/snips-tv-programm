@@ -92,7 +92,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         
     count = 0
     if noChan:
-        favs = storage.read_storeList():
+        favs = storage.read_storeList()
         if len(favs) == 0:
             result_sentence = "Keine Favouriten definiert."
     for item in data['rss']['channel']['item']:

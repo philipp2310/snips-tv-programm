@@ -60,7 +60,6 @@ def delFav(hermes, intentMessage, conf):
 
 def whatsOnTV(hermes, intentMessage, conf):
     noChan = True
-    print(len(intentMessage.slots.channel))
     if len(intentMessage.slots.channel) > 0:
         noChan = False
     if len(intentMessage.slots.timeslot) > 0:
@@ -96,7 +95,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         if noChan:
             #check in fav
             count = 1
-            result = "Favouriten nicht definiert."
+            result_sentence = "Favouriten nicht definiert."
         else:
             if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
                 result_sentence = result_sentence + item['title'][8:] + " . "

@@ -60,7 +60,7 @@ def delFav(hermes, intentMessage, conf):
 
 def whatsOnTV(hermes, intentMessage, conf):
     noChan = True
-    
+    print(len(intentMessage.slots.channel))
     if len(intentMessage.slots.channel) > 0:
         noChan = False
     if len(intentMessage.slots.timeslot) > 0:

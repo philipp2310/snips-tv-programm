@@ -50,7 +50,7 @@ def action_wrapper(hermes, intentMessage, conf):
 
 def addFav(hermes, intentMessage, conf):
     if len(intentMessage.slots.channel) > 0:
-        result_sentence = storage.add_Item(intentMessage.slots.channel.all())
+        result_sentence = storage.add_item(intentMessage.slots.channel.all())
         hermes.publish_end_session(intentMessage.session_id, result_sentence)
     
 def delFav(hermes, intentMessage, conf):

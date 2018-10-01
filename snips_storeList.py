@@ -121,9 +121,9 @@ class StoreList:
                                       "Ja, {item} habe ich auf der {listName}Liste.".format(item=str(item), listName=self.callName),
                                       "Ja, {item} ist auf deiner {listName}Liste.".format(item=str(item), listName=self.callName)])
         else:
-            response = random.choice(["Nein, {item} ist nicht auf deiner {]Liste.".format(item=str(item), listName=self.callName)],
-                                      "Nein, {item} ist nicht auf der {]Liste.".format(item=str(item), listName=self.callName)],
-                                      "Nein, {item} habe ich nicht auf der {]Liste.".format(item=str(item), listName=self.callName)],
+            response = random.choice(["Nein, {item} ist nicht auf deiner {]Liste.".format(item=str(item), listName=self.callName),
+                                      "Nein, {item} ist nicht auf der {]Liste.".format(item=str(item), listName=self.callName),
+                                      "Nein, {item} habe ich nicht auf der {]Liste.".format(item=str(item), listName=self.callName),
                                       "Nein, {item} fehlt noch auf deiner {]Liste.".format(item=str(item), listName=self.callName)])
         return response
 

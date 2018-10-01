@@ -60,6 +60,7 @@ def delFav(hermes, intentMessage, conf):
         hermes.publish_end_session(intentMessage.session_id, result_sentence)
 
 def whatsOnTV(hermes, intentMessage, conf):
+    result_sentence = ""
     noChan = True
     if len(intentMessage.slots.channel) > 0:
         noChan = False

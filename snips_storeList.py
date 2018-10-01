@@ -13,7 +13,8 @@ class StoreList:
                 itemlist = pickle.load(f)
         except EOFError as e:  # if no list in file
             itemlist = []
-        io.open(self.list_path, 'a').close()  # Create file, if not available
+        except IOError as e:
+            io.open(self.list_path, 'a').close()  # Create file, if not available
         self.storeList = self.read_storeList()
 
     def add_item(self, item_list):

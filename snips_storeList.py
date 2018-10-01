@@ -46,7 +46,7 @@ class StoreList:
             else:
                 items_str += "{} ".format(added_items[-1])
                 word_pl_sg = "wurde"
-            first_str = items_str + random.choice(["{} hinzugefügt".format(word_pl_sg),
+            first_str = items_str + random.choice(["{} hinzugefügt".decode('utf-8').format(word_pl_sg),
                                                    "{} auf die {listName}Liste gesetzt".format(word_pl_sg, listName=self.callName),
                                                    "{} auf die {listName}Liste geschrieben".format(word_pl_sg, listName=self.callName)])
             if not duplicates:

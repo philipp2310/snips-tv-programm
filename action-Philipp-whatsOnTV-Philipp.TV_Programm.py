@@ -70,7 +70,7 @@ def whatsOnTV(hermes, intentMessage, conf):
                 when = "2200"
             elif datetime.datetime.now().strftime('%H%M%S') > "2200":
                 when = "now"
-                result_sentence = "Keine späteren Informationen verfügbar. "
+                result_sentence = "Keine spÃ¤teren Informationen verfÃ¼gbar. "
             else:
                 when = "2015"
         else:
@@ -118,6 +118,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         result_sentence = result_sentence.replace("ServusTV Deutschland","Servus TV")
         result_sentence = result_sentence.replace("SAT.1","Sat 1")
         result_sentence = result_sentence.replace("DMAX","De Max")
+        result_sentence = result_sentence.replace("VOX","wocks")
     else:
         result_sentence = "Leider konnte ich keine Sendung finden."
     

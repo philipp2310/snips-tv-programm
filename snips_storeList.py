@@ -23,6 +23,7 @@ class StoreList:
         self.list_path = listName
         self.callName  = callName
         self.storeList = self.read_storeList()
+        # set encoding for umlauts...
         reload(sys)
         sys.setdefaultencoding('utf-8')
 
@@ -30,90 +31,86 @@ class StoreList:
 # every item must only occure once
     def add_item(self, item_list):
         duplicates = []
-        new_items = []
+        added = []
         str_temp = ""
+        response = ""
         # filter duplicate items, but keep them for a return message
         # store new items in member list for saving
         for item in item_list:
             if item.value in self.storeList:
                 duplicates.append(item.value)
             else:
-                new_items.append(item.value)
+                added.append(item.value)
                 self.storeList.append(item.value)
         # Start response creation
-        response = ""
         # X, Y und Z wurden hinzugef�gt....
-        if new_items:
+        if added:
             # concatenate all but the last separated by ", "
-            if len(new_items) >= 2:
-                str_temp = "{first} und {last} wurden".format(first="".join(item + ", " for item in new_items[:-1]), last=new_items[-1])
+            if len(added) > 1:
+                str_temp = "{first} und {last} wurden".format(first=", ".join(added[:-1]), last=added[-1])
             else:
-                str_temp = "{} wurde".format(new_items[0])
-            response = random.choice(["{} hinzugefügt".format(str_temp),
-                                      "{} auf die {listName}Liste gesetzt".format(str_temp, listName=self.callName),
-                                      "{} auf die {listName}Liste geschrieben".format(str_temp, listName=self.callName)])
-            if not duplicates:
-                response += "."
-            else:
-                response += ", aber "
+                str_temp = "{} wurde".format(added[0])
+            response = str_temp + random.choice([" hinzugefügt",
+                                                 " auf die {listName}Liste gesetzt".format(listName=self.callName),
+                                                 " auf die {listName}Liste geschrieben".format(listName=self.callName)])
+            response += ", aber " if duplicates else "."
+                
         #, aber A, B und C waren bereits auf der Liste vorhanden
         if duplicates:
-            str_temp = "".join(item + ", " for item in duplicates[:-1])
-            if len(duplicates) >= 2:
-                str_temp += "und {} ".format(duplicates[-1])
-                word_pl_sg = "waren"
+            if len(duplicates) > 1:
+                str_temp = "{first} und {last} waren ".format(first=", ".join(duplicates[:-1]), last=duplicates[-1])
             else:
-                str_temp += "{} ".format(duplicates[-1])
-                word_pl_sg = "war"
-            response += str_temp + random.choice(["{} schon auf der {listName}Liste.".format(word_pl_sg, listName=self.callName),
-                                                    "{} auf der {listName}Liste schon vorhanden.".format(word_pl_sg, listName=self.callName),
-                                                    "{} bereits auf der {listName}Liste vorhanden.".format(word_pl_sg, listName=self.callName)])
+                str_temp = "{} war ".format(duplicates[0])
+            response += str_temp + random.choice(["schon auf der {listName}Liste.".format(listName=self.callName),
+                                                  "auf der {listName}Liste schon vorhanden.".format(listName=self.callName),
+                                                  "bereits auf der {listName}Liste vorhanden.".format(listName=self.callName)])
         
         #save modified list and return output
         self.write_storeList()
         return response
-
+    
+# remove an item from the list
+# prepare message for output
     def remove_item(self, item_list):
         notfound = []
-        removed_items = []
+        removed = []
+        str_temp = ""
+        response = ""
+        # sort items between notfound and removed
         for item in item_list:
             if item.value in self.storeList:
-                removed_items.append(item.value)
+                removed.append(item.value)
                 self.storeList.remove(item.value)
             else:
                 notfound.append(item.value)
-        response = ""
-        if removed_items:
-            str_temp = "".join(item + ", " for item in removed_items[:-1])
-            if len(removed_items) >= 2:
-                str_temp += "und {} ".format(removed_items[-1])
-                word_pl_sg = "wurden"
+        
+        # build response for removed items
+        if removed:
+            if len(removed) >= 2:
+                str_temp = "{first} und {last} wurden ".format(first=", ".join(removed[:-1]), last=removed[-1])
             else:
-                str_temp += "{} ".format(removed_items[-1])
-                word_pl_sg = "wurde"
-            first_str = str_temp + random.choice(["{} entfernt".format(word_pl_sg),
-                                                   "{} von der {listName}Liste entfernt".format(word_pl_sg, listName=self.callName),
-                                                   "{} von der {listName}Liste gelöscht".format(word_pl_sg, listName=self.callName)])
-            if not notfound:
-                first_str += "."
-            else:
-                first_str += ", aber "
-            response += first_str
+                str_temp = "{} wurde ".format(removed[0])
+            response = str_temp + random.choice(["{} entfernt".format(word_pl_sg),
+                                                  "{} von der {listName}Liste entfernt".format(word_pl_sg, listName=self.callName),
+                                                  "{} von der {listName}Liste gelöscht".format(word_pl_sg, listName=self.callName)])
+
+            response += ", aber " if notfound else "."
+        
+        # build response for not removed items
         if notfound:
             str_temp = "".join(item + ", " for item in notfound[:-1])
             if len(notfound) >= 2:
-                str_temp += "und {last} ".format(last=notfound[-1])
-                word_pl_sg = "waren"
+                str_temp = "{first} und {last} waren ".format(first=", ".join(notfound[:-1]), last=notfound[-1])
             else:
-                str_temp += "{} ".format(notfound[-1])
-                word_pl_sg = "war"
-            second_str = str_temp + random.choice(["{} nicht auf der {listName}Liste.".format(word_pl_sg, listName=self.callName),
-                                                    "{} noch nicht auf der {listName}Liste.".format(word_pl_sg, listName=self.callName),
-                                                    "{} auf der {listName}Liste nicht vorhanden.".format(word_pl_sg, listName=self.callName)])
-            response += second_str
+                str_temp = "{} war ".format(notfound[0])
+            response += str_temp + random.choice(["nicht auf der {listName}Liste.".format(listName=self.callName),
+                                                  "noch nicht auf der {listName}Liste.".format(listName=self.callName),
+                                                  "auf der {listName}Liste nicht vorhanden.".format(listName=self.callName)])
+            
         self.write_storeList()
         return response
 
+# Check if an item is on the list(for enduser)
     def contains(self, item):
         if item in self.storeList:
             response = random.choice(["Ja, {item} steht auf der {listName}Liste.".format(item=str(item), listName=self.callName),
@@ -137,13 +134,10 @@ class StoreList:
   
     def show(self):
         if len(self.storeList) > 1:
-            storeList_str = ""
-            for item in self.storeList[:-1]:
-                storeList_str = storeList_str + str(item) + ", "
-            response = random.choice(["Deine {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
-                                      "Auf der {listName}Liste steht {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
-                                      "Du hast {items} sowie {last} auf der {listName}Liste.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1]),
-                                      "Die {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=storeList_str, last=self.storeList[-1])])
+            response = random.choice(["Deine {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=", ".join(self.storeList[:-1]), last=self.storeList[-1]),
+                                      "Auf der {listName}Liste steht {items} und {last}.".format(listName=self.callName, items=", ".join(self.storeList[:-1]), last=self.storeList[-1]),
+                                      "Du hast {items} sowie {last} auf der {listName}Liste.".format(listName=self.callName, items=", ".join(self.storeList[:-1]), last=self.storeList[-1]),
+                                      "Die {listName}Liste enthält {items} und {last}.".format(listName=self.callName, items=", ".join(self.storeList[:-1]), last=self.storeList[-1])])
         elif len(self.storeList) == 1:
             response = random.choice(["Deine {listName}Liste enthält nur {item}.".format(listName=self.callName, item=self.storeList[0]),
                                       "{item}. Mehr steht nicht auf der {listName}Liste.".format(listName=self.callName, item=self.storeList[0]),

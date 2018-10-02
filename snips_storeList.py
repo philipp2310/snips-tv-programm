@@ -4,7 +4,7 @@
 import random
 import io
 import pickle
-
+import sys
 # A class for universal storage of data with randomized response messages
 # a file with listName has to be created manually and the corresponding rights have to be added to setup.sh
 #eg: (.fav)
@@ -23,6 +23,8 @@ class StoreList:
         self.list_path = listName
         self.callName  = callName
         self.storeList = self.read_storeList()
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
 
 # add an item to the list and store the list back to hdd
 # every item must only occure once

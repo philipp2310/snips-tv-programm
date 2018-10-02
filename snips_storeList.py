@@ -44,7 +44,7 @@ class StoreList:
         # X, Y und Z wurden hinzugef�gt....
         if new_items:
             # concatenate all but the last separated by ", "
-            str_temp = "{}{},".format(str_temp, item for item in new_items[:-1])
+            str_temp = "{}{},".format(str_temp, (item for item in new_items[:-1]))
             #str_temp = "".join(item + ", " for item in new_items[:-1])
             if len(new_items) >= 2:
                 str_temp += "und {last} ".format(last=new_items[-1])

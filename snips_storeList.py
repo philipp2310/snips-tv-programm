@@ -90,9 +90,9 @@ class StoreList:
                 str_temp = "{first} und {last} wurden ".format(first=", ".join(removed[:-1]), last=removed[-1])
             else:
                 str_temp = "{} wurde ".format(removed[0])
-            response = str_temp + random.choice(["{} entfernt",
-                                                  "{} von der {listName}Liste entfernt".format(listName=self.callName),
-                                                  "{} von der {listName}Liste gelöscht".format(listName=self.callName)])
+            response = str_temp + random.choice(["entfernt",
+                                                  "von der {listName}Liste entfernt".format(listName=self.callName),
+                                                  "von der {listName}Liste gelöscht".format(listName=self.callName)])
 
             response += ", aber " if notfound else "."
         

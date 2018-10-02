@@ -87,7 +87,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
         
     elif when == "2200":
-        result_sentence = "Heute Nacht auf "
+        result_sentence = "Heute ab 10 auf "
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
         
     else:

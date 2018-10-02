@@ -45,17 +45,13 @@ class StoreList:
         # X, Y und Z wurden hinzugef�gt....
         if new_items:
             # concatenate all but the last separated by ", "
-            str_temp = "{}{},".format(str_temp, (item for item in new_items[:-1]))
-            #str_temp = "".join(item + ", " for item in new_items[:-1])
             if len(new_items) >= 2:
-                str_temp += "und {last} ".format(last=new_items[-1])
-                word_pl_sg = "wurden"
+                str_temp = "{first} und {last} wurden".format(first="".join(item + ", " for item in new_items[:-1]), last=new_items[-1])
             else:
-                str_temp += "{} ".format(new_items[-1])
-                word_pl_sg = "wurde"
-            response = str_temp + random.choice(["{} hinzugefügt".format(word_pl_sg),
-                                                   "{} auf die {listName}Liste gesetzt".format(word_pl_sg, listName=self.callName),
-                                                   "{} auf die {listName}Liste geschrieben".format(word_pl_sg, listName=self.callName)])
+                str_temp = "{} wurde".format(new_items[0])
+            response = random.choice(["{} hinzugefügt".format(str_temp),
+                                      "{} auf die {listName}Liste gesetzt".format(str_temp, listName=self.callName),
+                                      "{} auf die {listName}Liste geschrieben".format(str_temp, listName=self.callName)])
             if not duplicates:
                 response += "."
             else:

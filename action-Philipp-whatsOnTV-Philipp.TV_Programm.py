@@ -126,6 +126,6 @@ def whatsOnTV(hermes, intentMessage, conf):
 
 
 if __name__ == "__main__":
-    storage = StoreList(".favs","Favoriten")
+    storage = StoreList(".favs","Programm")
     with Hermes("localhost:1883") as h:
         h.subscribe_intents(subscribe_intent_callback).start()

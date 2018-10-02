@@ -31,6 +31,7 @@ class StoreList:
     def add_item(self, item_list):
         duplicates = []
         new_items = []
+        str_temp = ""
         # filter duplicate items, but keep them for a return message
         # store new items in member list for saving
         for item in item_list:

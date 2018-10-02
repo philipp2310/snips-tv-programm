@@ -109,9 +109,9 @@ class StoreList:
             else:
                 str_temp += "{} ".format(notfound[-1])
                 word_pl_sg = "war"
-            second_str = str_temp + random.choice(["{} nicht auf der {listName}Liste.ö".format(word_pl_sg, listName=self.callName),
-                                                    "{} noch nicht auf der {listName}Liste.ö".format(word_pl_sg, listName=self.callName),
-                                                    "{} auf der {listName}Liste nicht vorhanden.ö".format(word_pl_sg, listName=self.callName)])
+            second_str = str_temp + random.choice(["{} nicht auf der {listName}Liste.".format(word_pl_sg, listName=self.callName),
+                                                    "{} noch nicht auf der {listName}Liste.".format(word_pl_sg, listName=self.callName),
+                                                    "{} auf der {listName}Liste nicht vorhanden.".format(word_pl_sg, listName=self.callName)])
             response += second_str
         self.write_storeList()
         return response

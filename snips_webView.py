@@ -36,5 +36,6 @@ class webView:
         self.html = self.html.replace('{{'+field+'}}',data,1)
         
     def send_to_display():
+        print(self.html)
         publish(self.topic, self.html, hostname="localhost", port=1883)
         

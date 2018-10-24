@@ -15,6 +15,7 @@ class webView:
         # set encoding for umlauts...
         reload(sys)
         sys.setdefaultencoding('utf-8')
+        self.read_file()
 
     def read_file(self):
         try:

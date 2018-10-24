@@ -11,7 +11,7 @@ class webView:
         self.appName = appName
         self.htmlFile = htmlFile
         self.html = ""
-        self.topic = "Wilma/disp/"+self.sideID+"/"+appName
+        self.topic = "wilma/"+self.sideID+"/"+appName
         # set encoding for umlauts...
         reload(sys)
         sys.setdefaultencoding('utf-8')

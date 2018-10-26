@@ -135,6 +135,7 @@ def whatsOnTV(hermes, intentMessage, conf):
     webV.insert_data("Programm", programm)
     webV.insert_data("Time", time)
     
+    print("test")
     webV.send_to_display()
     
     return result_sentence

@@ -1,3 +1,5 @@
 # Bindings for the hermes protocol 
+future
 hermes-python>=0.1
 xmltodict
+paho-mqtt

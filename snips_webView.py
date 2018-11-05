@@ -19,7 +19,8 @@ class webView:
 
     def read_file(self):
         try:
-            self.html = io.open(self.htmlFile, 'rb')
+            with io.open(self.htmlFile, 'rb') as myfile:
+                self.html = myfile.read().replace('\n', '')
         except EOFError:
             return []
 
@@ -29,13 +30,13 @@ class webView:
 #<script type="text/javascript">
 #//Javascript goes here
 #</script>
-    def insert_includes():
+    def insert_includes(self):
         self.html = self.html
         
     def insert_data(self, field, data):
         self.html = self.html.replace('{{'+field+'}}',data,1)
         
-    def send_to_display():
+    def send_to_display(self):
         print(self.html)
-        publish(self.topic, self.html, hostname="localhost", port=1883)
+        publish.single(self.topic, self.html, hostname="localhost", port=1883)
         

@@ -83,7 +83,7 @@ def whatsOnTV(hermes, intentMessage, conf):
 
     if when == "now":
         result_sentence += "Jetzt auf "
-        time = datetime.datetime.now()
+        time = "Jetzt"
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
     
     elif when == "2015":
@@ -98,7 +98,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         
     else:
         result_sentence = "Jetzt auf "
-        time = datetime.datetime.now()
+        time = "Jetzt"
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
 
     data = file.read()
@@ -119,7 +119,7 @@ def whatsOnTV(hermes, intentMessage, conf):
         else:
             if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
                 result_sentence = result_sentence + item['title'][8:] + " . "
-                programm += item['title'][8:] +"<br\>"
+                programm += item['title'][8:] +"<br/>"
                 count = count + 1
     
     if count > 0:

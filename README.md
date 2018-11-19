@@ -42,7 +42,7 @@ Integration with television: send and receive MQTT messages with my TV-App Inter
 - rec.: how long will the show take? (remaining time of show on current channel)
 - send: (after question: what's running now?) -> take me to that channel
 
-Screen integration: Send out MQTT containing the data to display stuff on a smart screen
+Screen integration: Send out MQTT containing the data to display stuff on a smart screen <b>(currently working on)</b>
 - show favorite list
 - show programm info (with details and img?)
 - receive input: remove(add?) favourite

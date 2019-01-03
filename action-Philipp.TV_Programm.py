@@ -131,7 +131,7 @@ def whatsOnTV(hermes, intentMessage, conf):
     else:
         result_sentence = "Leider konnte ich keine Sendung finden."
     
-    webV = webView("webview.html", "TVProgramm", sideID='default')
+    webV = webView("webview.html", "TVProgramm", siteID='default')
     webV.insert_data("Programm", programm)
     webV.insert_data("Time", time)
     

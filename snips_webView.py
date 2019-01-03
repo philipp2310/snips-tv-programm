@@ -7,11 +7,11 @@ import paho.mqtt.publish as publish
 
 # webView loads a html file and creates a single output line that can be transfered via MQTT
 class webView:
-    def __init__(self, htmlFile, appName, sideID='default'):
+    def __init__(self, htmlFile, appName, siteID='default'):
         self.appName = appName
         self.htmlFile = htmlFile
         self.html = ""
-        self.topic = "wilma/"+sideID+"/"+appName
+        self.topic = "wilma/"+siteID+"/"+appName
         # set encoding for umlauts...
         reload(sys)
         sys.setdefaultencoding('utf-8')

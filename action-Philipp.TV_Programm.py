@@ -111,16 +111,22 @@ def whatsOnTV(hermes, intentMessage, conf):
         if len(favs) == 0:
             return "Keine Programmliste definiert."
     for item in data['rss']['channel']['item']:
+        img = None
         if noChan:
             if any("| " + chan +" |" in item['title'] for chan in favs):
                 result_sentence = result_sentence + item['title'][8:] + " . "
                 programm += item['title'][8:] +"<br\>"
-                count = count + 1   
+                count = count + 1
+                if 'enclosure' in item && '@url' in item['enclosure']:
+                    img = item['enclosure']['@url']
         else:
             if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
                 result_sentence = result_sentence + item['title'][8:] + " . "
                 programm += item['title'][8:] +"<br/>"
                 count = count + 1
+                if 'enclosure' in item && '@url' in item['enclosure']:
+                    img = item['enclosure']['@url']
+                    
     
     if count > 0:
         result_sentence = result_sentence.replace(" |",":")

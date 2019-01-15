@@ -1,0 +1,109 @@
+body {
+    background: black;
+    color: #CCCCCC;
+    padding: 0;
+    margin: 0;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    position: relative;
+    cursor: default;
+}
+
+.clock {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: #17D4FE;
+    font-size: 15vw;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 7px;
+}
+
+.subtitle {
+    color: #f7f99d;
+    font-size: 8vw;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.subtitle marquee{
+	position: fixed;
+    bottom: 0vw;
+    width: 100vw;
+    left: 0vw;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.idle {
+	height: 100%;
+}
+
+.listening {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: -1;
+	animation: listening 3s linear infinite;
+}
+
+
+@keyframes listening {
+    0%   { box-shadow: inset 0 0 0VW 0VW #17D4FE; }
+    50%   { box-shadow: inset 0 0 25VW 0VW #17D4FE; }
+    100%   { box-shadow: inset 0 0 0VW 0VW #17D4FE; }
+}
+
+#connectionStatus {
+    width: 3vw;
+    height: 3vw;
+    border-radius: 3vw;
+}
+
+body.notconnected #connectionStatus {
+    background-color: #bc0000;
+}
+
+body.connected #connectionStatus {
+    background-color: #009700;
+    visibility: hidden;
+}
+
+h1 {
+	font-size:11vw;
+}
+
+.floaty {
+	float: left;
+	clear: both;
+}
+
+.floaty label{
+	font-size: 2VW;
+	width: 30VW;
+	display: inline-block
+}
+
+.floaty input{
+	font-size: 2VW;
+    text-align: right;
+    margin-right: 3VW;
+	width: 62VW;
+}
+
+a.smallbutton{
+	margin: 3VW;
+	padding: 1VW;
+	display: inline-block;
+	background: gray;
+	width: 90VW;
+	text-align: center;
+	font-size: 8VW;
+    border-color: #ECEFF1
+    -webkit-appearance: button;
+    box-shadow: rgb(23, 212, 254) 0px 0px 0vw 1vw inset;
+}

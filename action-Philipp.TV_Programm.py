@@ -120,9 +120,9 @@ def whatsOnTV(hermes, intentMessage, conf):
                 if 'enclosure' in item && '@url' in item['enclosure']:
                     img = item['enclosure']['@url']
         else:
-            if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
+            if any("<p>| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
                 result_sentence = result_sentence + item['title'][8:] + " . "
-                programm += item['title'][8:] +"<br/>"
+                programm += item['title'][8:] +"</p>"
                 count = count + 1
                 if 'enclosure' in item && '@url' in item['enclosure']:
                     img = item['enclosure']['@url']

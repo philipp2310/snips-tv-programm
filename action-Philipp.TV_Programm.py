@@ -8,6 +8,7 @@ import io
 import urllib
 import xmltodict
 from snips_storeList import StoreList
+from snips_webView import webView
 import datetime
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
@@ -62,6 +63,8 @@ def delFav(hermes, intentMessage, conf):
 def whatsOnTV(hermes, intentMessage, conf):
     result_sentence = ""
     noChan = True
+    time = ""
+    programm = ""
     if len(intentMessage.slots.channel) > 0:
         noChan = False
     if len(intentMessage.slots.timeslot) > 0:
@@ -80,38 +83,51 @@ def whatsOnTV(hermes, intentMessage, conf):
 
     if when == "now":
         result_sentence += "Jetzt auf "
+        time = "Jetzt"
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
     
     elif when == "2015":
         result_sentence = "Heute Abend auf "
+        time = "20:15"
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
         
     elif when == "2200":
         result_sentence = "Heute ab 10 auf "
+        time = "22:00"
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
         
     else:
         result_sentence = "Jetzt auf "
+        time = "Jetzt"
         file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
 
     data = file.read()
     file.close()
     data = xmltodict.parse(data)
-        
+
     count = 0
     if noChan:
         favs = storage.read_storeList()
         if len(favs) == 0:
             return "Keine Programmliste definiert."
     for item in data['rss']['channel']['item']:
+        img = ""
         if noChan:
             if any("| " + chan +" |" in item['title'] for chan in favs):
+                if 'enclosure' in item and '@url' in item['enclosure']:
+                    img = "<img src="+item['enclosure']['@url']+" />"
                 result_sentence = result_sentence + item['title'][8:] + " . "
-                count = count + 1   
+                programm += "<p>"+img+item['title'][8:] +"</p>"
+                count = count + 1
+
         else:
             if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
+                if 'enclosure' in item and '@url' in item['enclosure']:
+                    img = "<img src="+item['enclosure']['@url']+" />"
                 result_sentence = result_sentence + item['title'][8:] + " . "
+                programm += "<p>"+img+item['title'][8:] +"</p>"
                 count = count + 1
+                    
     
     if count > 0:
         result_sentence = result_sentence.replace(" |",":")
@@ -121,6 +137,12 @@ def whatsOnTV(hermes, intentMessage, conf):
         result_sentence = result_sentence.replace("VOX","wocks")
     else:
         result_sentence = "Leider konnte ich keine Sendung finden."
+    
+    webV = webView("webview.html", "TVProgramm", siteID='default')
+    webV.insert_data("Programm", programm)
+    webV.insert_data("Time", time)
+    
+    webV.send_to_display()
     
     return result_sentence
 

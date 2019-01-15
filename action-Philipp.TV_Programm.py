@@ -104,28 +104,29 @@ def whatsOnTV(hermes, intentMessage, conf):
     data = file.read()
     file.close()
     data = xmltodict.parse(data)
-        
+
     count = 0
     if noChan:
         favs = storage.read_storeList()
         if len(favs) == 0:
             return "Keine Programmliste definiert."
     for item in data['rss']['channel']['item']:
-        img = None
+        img = ""
         if noChan:
             if any("| " + chan +" |" in item['title'] for chan in favs):
+                if 'enclosure' in item and '@url' in item['enclosure']:
+                    img = "<img src="+item['enclosure']['@url']+" />"
                 result_sentence = result_sentence + item['title'][8:] + " . "
-                programm += item['title'][8:] +"<br\>"
+                programm += "<p>"+img+item['title'][8:] +"</p>"
                 count = count + 1
-                if 'enclosure' in item && '@url' in item['enclosure']:
-                    img = item['enclosure']['@url']
+
         else:
-            if any("<p>| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
+            if any("| " + chan.value +" |" in item['title'] for chan in intentMessage.slots.channel.all()):
+                if 'enclosure' in item and '@url' in item['enclosure']:
+                    img = "<img src="+item['enclosure']['@url']+" />"
                 result_sentence = result_sentence + item['title'][8:] + " . "
-                programm += item['title'][8:] +"</p>"
+                programm += "<p>"+img+item['title'][8:] +"</p>"
                 count = count + 1
-                if 'enclosure' in item && '@url' in item['enclosure']:
-                    img = item['enclosure']['@url']
                     
     
     if count > 0:
@@ -141,7 +142,6 @@ def whatsOnTV(hermes, intentMessage, conf):
     webV.insert_data("Programm", programm)
     webV.insert_data("Time", time)
     
-    print("test")
     webV.send_to_display()
     
     return result_sentence

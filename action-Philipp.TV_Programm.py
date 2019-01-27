@@ -1,11 +1,11 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import ConfigParser
+import configparser
 from hermes_python.hermes import Hermes
 from hermes_python.ontology import *
 import io
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import xmltodict
 from snips_storeList import StoreList
 from snips_webView import webView
@@ -14,7 +14,7 @@ import datetime
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
 
-class SnipsConfigParser(ConfigParser.SafeConfigParser):
+class SnipsConfigParser(configparser.SafeConfigParser):
     def to_dict(self):
         return {section : {option_name : option for option_name, option in self.items(section)} for section in self.sections()}
 
@@ -25,7 +25,7 @@ def read_configuration_file(configuration_file):
             conf_parser = SnipsConfigParser()
             conf_parser.readfp(f)
             return conf_parser.to_dict()
-    except (IOError, ConfigParser.Error) as e:
+    except (IOError, configparser.Error) as e:
         return dict()
 
 def subscribe_intent_callback(hermes, intentMessage):
@@ -84,22 +84,22 @@ def whatsOnTV(hermes, intentMessage, conf):
     if when == "now":
         result_sentence += "Jetzt auf "
         time = "Jetzt"
-        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
+        file = urllib.request.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
     
     elif when == "2015":
         result_sentence = "Heute Abend auf "
         time = "20:15"
-        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
+        file = urllib.request.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2015.xml')
         
     elif when == "2200":
         result_sentence = "Heute ab 10 auf "
         time = "22:00"
-        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
+        file = urllib.request.urlopen('http://www.tvspielfilm.de/tv-programm/rss/heute2200.xml')
         
     else:
         result_sentence = "Jetzt auf "
         time = "Jetzt"
-        file = urllib.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
+        file = urllib.request.urlopen('http://www.tvspielfilm.de/tv-programm/rss/jetzt.xml')
 
     data = file.read()
     file.close()

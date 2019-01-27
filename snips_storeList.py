@@ -23,9 +23,6 @@ class StoreList:
         self.list_path = listName
         self.callName  = callName
         self.storeList = self.read_storeList()
-        # set encoding for umlauts...
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
 
 # add an item to the list and store the list back to hdd
 # every item must only occure once

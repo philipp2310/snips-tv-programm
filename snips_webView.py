@@ -12,14 +12,11 @@ class webView:
         self.htmlFile = htmlFile
         self.html = ""
         self.topic = "wilma/"+siteID+"/"+appName
-        # set encoding for umlauts...
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
         self.read_file()
 
     def read_file(self):
         try:
-            with io.open(self.htmlFile, 'rb') as myfile:
+            with io.open(self.htmlFile, 'r') as myfile:
                 self.html = myfile.read().replace('\n', '')
         except EOFError:
             return []

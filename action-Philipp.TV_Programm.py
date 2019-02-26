@@ -65,9 +65,9 @@ def whatsOnTV(hermes, intentMessage, conf):
     noChan = True
     time = ""
     programm = ""
-    if len(intentMessage.slots.channel) > 0:
+    if   intentMessage.slots is not None and len(intentMessage.slots.channel) > 0:
         noChan = False
-    if len(intentMessage.slots.timeslot) > 0:
+    if intentMessage.slots is not None and len(intentMessage.slots.timeslot) > 0:
         if intentMessage.slots.timeslot.first().value == "later":
             if datetime.datetime.now().strftime('%H%M%S') > "2015":
                 when = "2200"
@@ -141,7 +141,7 @@ def whatsOnTV(hermes, intentMessage, conf):
     webV = webView("webview.html", "TVProgramm", siteID='default')
     webV.insert_data("Programm", programm)
     webV.insert_data("Time", time)
-    
+    webV.do_replacements()
     webV.send_to_display()
     
     return result_sentence
